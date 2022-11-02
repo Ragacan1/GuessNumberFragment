@@ -1,4 +1,4 @@
-# Bienvenido al repositorio GuessNumber
+# Bienvenido al repositorio GuessNumberFragment
 
 Este proyecto android consiste en el desarrolo de una aplicación que permite que un jugador trate de adivinar un número oculto en una serie de intentos determinados por el propio usuario. 
 
