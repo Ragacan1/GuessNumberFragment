@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">GuessNumberFragment</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="tvJugador">Player</string>
+    <string name="tvNumIntentos">Nº of tries:</string>
+    <string name="etJugador">Insert your name...</string>
+    <string name="etNumIntentos">Insert tries...</string>
+    <string name="btnJugar">PLAY</string>
+    <string name="tvFrase">TRY TO GUESS THE NUMBER</string>
+    <string name="btnAdivinar">GUESS</string>
+    <string name="btnRepetir">PLAY AGAIN</string>
+</resources>

@@ -7,26 +7,37 @@
     <fragment
         android:id="@+id/configFragment"
         android:name="com.example.guessnumberfragment.ui.ConfigFragment"
-        android:label="ConfigFragment" >
+        android:label="GuessNumberFragment" >
         <action
             android:id="@+id/action_configFragment_to_playFragment"
             app:destination="@id/playFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/playFragment"
         android:name="com.example.guessnumberfragment.ui.PlayFragment"
-        android:label="PlayFragment" >
+        android:label="GuessNumberFragment" >
         <action
             android:id="@+id/action_playFragment_to_endPlayFragment"
             app:destination="@id/endPlayFragment" />
+        <argument
+            android:name="jugador"
+            app:argType="com.example.guessnumberfragment.data.Jugador" />
     </fragment>
     <fragment
         android:id="@+id/endPlayFragment"
         android:name="com.example.guessnumberfragment.ui.EndPlayFragment"
-        android:label="EndPlayFragment" >
+        android:label="GuessNumberFragment" >
         <action
             android:id="@+id/action_endPlayFragment_to_configFragment"
-            app:destination="@id/configFragment"
-            app:popUpTo="@id/nav_graph" />
+            app:destination="@id/configFragment" />
+        <argument
+            android:name="jugador"
+            app:argType="com.example.guessnumberfragment.data.Jugador" />
     </fragment>
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="com.example.guessnumberfragment.ui.MainActivity"
+        android:label="GuessNumberFragment"
+        tools:layout="@layout/activity_main" />
 </navigation>

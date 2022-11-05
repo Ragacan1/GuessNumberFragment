@@ -2,6 +2,7 @@ package com.example.guessnumberfragment.ui;
 
 import android.app.Application;
 import android.os.Bundle;
+
 import com.example.guessnumberfragment.data.Jugador;
 
 import com.example.guessnumberfragment.R;
@@ -22,10 +23,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
-
-    Jugador jugador;
-
-
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
 
@@ -41,8 +38,6 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-
-
     }
 
     @Override
@@ -74,11 +69,4 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    public void setJugador(String jugador, int nIntentos) {
-        this.jugador = new Jugador(jugador, nIntentos);
-    }
-
-    public Jugador getJugador() {
-        return jugador;
-    }
 }

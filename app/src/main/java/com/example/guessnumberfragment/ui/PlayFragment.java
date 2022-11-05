@@ -20,7 +20,6 @@ import com.example.guessnumberfragment.databinding.FragmentPlayBinding;
 public class PlayFragment extends Fragment {
 
     private FragmentPlayBinding binding;
-    public Jugador jugador;
 
     public PlayFragment() {
         // Required empty public constructor
@@ -39,20 +38,24 @@ public class PlayFragment extends Fragment {
 
         // Inflate the layout for this fragment
         binding = FragmentPlayBinding.inflate(inflater);
-        binding.btnAdivinar.setOnClickListener(view -> NavHostFragment.findNavController(this).navigate(R.id.action_playFragment_to_endPlayFragment));
+
+        binding.setJugador(PlayFragmentArgs.fromBundle(getArguments()).getJugador());
+
         return binding.getRoot();
 
 
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        //OPCION 1: Recoge un BUNDLE
-        binding.setMessage(getArguments().getParcelable(Jugador.KEY));
-        //OPCION 2: Se recoge a través de la clase FragmentBArgs
-        //binding.setMessage(PlayFragment.fromBundle(getArguments()).getMessage());
+        binding.tvBienvenida.setText("Bienvenido " + binding.getJugador().getNombre() + "!");
+        binding.tvIntentosRestantes.setText("Te quedan " + String.valueOf(binding.getJugador().getnIntentos()) + " intentos");
+    }
 
-        binding.tvBienvenida.setText("Bienvenido " + jugador.getNombre() + "!");
-        binding.tvIntentosRestantes.setText("Te quedan " + String.valueOf(jugador.getnIntentos()) + " intentos");
+    @Override
+    public void onStart() {
+        super.onStart();
+        binding.btnAdivinar.setOnClickListener(view -> adivinar());
+
     }
 
     @Override
@@ -64,49 +67,47 @@ public class PlayFragment extends Fragment {
     /**
      * Comprueba si el número introducido es mayor, menor o igual que el número a adivinar.
      */
-    /*public void adivinar(View view) {
+    public void adivinar() {
         if (!checkCampos())
             return;
         else {
             int numIntroducido = Integer.parseInt(binding.etNumero.getText().toString());
-            Intent intent = new Intent(this, EndPlayFragment.class);
-            AlertDialog.Builder dialogo = new AlertDialog.Builder(this)
+            Intent intent = new Intent(getActivity(), EndPlayFragment.class);
+            AlertDialog.Builder dialogo = new AlertDialog.Builder(getActivity())
                     .setCancelable(false)
                     .setTitle("Incorrecto")
                     .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             binding.etNumero.setText("");
-                            jugador.setnIntentosActual(jugador.getnIntentosActual() + 1);
-                            jugador.setnIntentos(jugador.getnIntentos() - 1);
-                            binding.tvIntentosRestantes.setText("Te quedan " + String.valueOf(jugador.getnIntentos()) + " intentos");
+                            binding.getJugador().setnIntentosActual(binding.getJugador().getnIntentosActual() + 1);
+                            binding.getJugador().setnIntentos(binding.getJugador().getnIntentos() - 1);
+                            binding.tvIntentosRestantes.setText("Te quedan " + String.valueOf(binding.getJugador().getnIntentos()) + " intentos");
                         }
                     });
 
-            if (numIntroducido == jugador.getNumAdivinar()) {
-                victoria(intent);
+            if (numIntroducido == binding.getJugador().getNumAdivinar()) {
+                victoria();
+            }
+            if (numIntroducido < binding.getJugador().getNumAdivinar()) {
+                menorNum(dialogo);
                 return;
             }
-            if (numIntroducido < jugador.getNumAdivinar()) {
-                menorNum(intent, dialogo);
+            if (numIntroducido > binding.getJugador().getNumAdivinar()) {
+                mayorNum(dialogo);
                 return;
             }
-            if (numIntroducido > jugador.getNumAdivinar()) {
-                mayorNum(intent, dialogo);
-                return;
-            }
-
         }
-    }*/
+    }
 
     /**
      * Gestiona el programa en caso de que el jugador inserte un número mayor al número a adivinar
      */
-    public void mayorNum(Intent intent, AlertDialog.Builder dialogo) {
-        if (jugador.getnIntentos() == 1) {
-            jugador.setPartida("perdido");
-            jugador.setnIntentosActual(jugador.getnIntentosActual() + 1);
-            startActivity(intent);
-            //finish();
+    public void mayorNum(AlertDialog.Builder dialogo) {
+        if (binding.getJugador().getnIntentos() == 1) {
+            binding.getJugador().setPartida("perdido");
+            binding.getJugador().setnIntentosActual(binding.getJugador().getnIntentosActual() + 1);
+
+            navegacion();
             return;
         }
         dialogo.setMessage("El número que ha introducido es MAYOR.");
@@ -116,12 +117,12 @@ public class PlayFragment extends Fragment {
     /**
      * Gestiona el programa en caso de que el jugador inserte un número menor al número a adivinar
      */
-    public void menorNum(Intent intent, AlertDialog.Builder dialogo) {
-        if (jugador.getnIntentos() == 1) {
-            jugador.setPartida("perdido");
-            jugador.setnIntentosActual(jugador.getnIntentosActual() + 1);
-            startActivity(intent);
-            //finish();
+    public void menorNum(AlertDialog.Builder dialogo) {
+        if (binding.getJugador().getnIntentos() == 1) {
+            binding.getJugador().setPartida("perdido");
+            binding.getJugador().setnIntentosActual(binding.getJugador().getnIntentosActual() + 1);
+
+            navegacion();
             return;
         }
         dialogo.setMessage("El número que ha introducido es MENOR.");
@@ -131,11 +132,10 @@ public class PlayFragment extends Fragment {
     /**
      * Gestiona el programa en caso de que el jugador inserte un número igual al número a adivinar
      */
-    public void victoria(Intent intent) {
-        jugador.setPartida("ganado");
-        jugador.setnIntentosActual(jugador.getnIntentosActual() + 1);
-        startActivity(intent);
-        //finish();
+    public void victoria() {
+        binding.getJugador().setPartida("ganado");
+        binding.getJugador().setnIntentosActual(binding.getJugador().getnIntentosActual() + 1);
+        navegacion();
     }
 
     /**
@@ -145,9 +145,14 @@ public class PlayFragment extends Fragment {
         String etNumero = binding.etNumero.getText().toString();
 
         if (etNumero.equals("")) {
-            //Toast.makeText(this, "Todos los campos deben estar rellenos", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Todos los campos deben estar rellenos", Toast.LENGTH_SHORT).show();
             return false;
         } else
             return true;
+    }
+
+    public void navegacion(){
+        PlayFragmentDirections.ActionPlayFragmentToEndPlayFragment action = PlayFragmentDirections.actionPlayFragmentToEndPlayFragment(binding.getJugador());
+        NavHostFragment.findNavController(this).navigate(action);
     }
 }

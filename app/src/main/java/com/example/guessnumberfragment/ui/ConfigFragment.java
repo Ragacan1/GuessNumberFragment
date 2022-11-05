@@ -1,14 +1,14 @@
 package com.example.guessnumberfragment.ui;
 
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
@@ -26,33 +26,47 @@ public class ConfigFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding=FragmentConfigBinding.inflate(inflater);
-        binding.setMessage(new Jugador());
+        binding = FragmentConfigBinding.inflate(inflater);
+        binding.setJugador(new Jugador());
 
         binding.btnJugar.setOnClickListener(view -> {
-            //OPCION 1: QUE SE PASA UN BUNDLE
-            Bundle bundle= new Bundle();
-            bundle.putParcelable(Jugador.KEY, binding.getMessage());
-            NavHostFragment.findNavController(this).navigate(R.id.playFragment, bundle);
-            //OPCION 2: SE PASA UN OBJETO MESSAGE
-
-            //ConfigFragmentDirections.ActionFragmentAToFragmentB action=FragmentADirections.actionFragmentAToFragmentB(binding.getMessage());
-            //NavHostFragment.findNavController(this).navigate(action);
+            jugar();
         });
 
         return binding.getRoot();
-
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
 
     @Override
     public void onDestroyView() {
@@ -60,17 +74,40 @@ public class ConfigFragment extends Fragment {
         binding = null;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 
-    /*public void jugar(View view) {
+    @Override
+    public void onDetach() {
+        super.onDetach();
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState != null)
+            if (binding != null)
+                binding.setJugador(savedInstanceState.getParcelable(Jugador.KEY));
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (binding != null)
+            outState.putParcelable(Jugador.KEY, binding.getJugador());
+    }
+
+    public void jugar() {
         if (!checkCampos() || !checkIntentos())
             return;
         else {
-            ((MainActivity) getApplication()).setJugador(binding.etJugador.getText().toString(), Integer.parseInt(binding.etNumIntentos.getText().toString()));
-            Intent intent = new Intent(this, PlayFragment.class);
-            startActivity(intent);
-            finish();
+            binding.getJugador().setNombre(binding.etJugador.getText().toString());
+            binding.getJugador().setnIntentos(Integer.parseInt(binding.etNumIntentos.getText().toString()));
+            navegacion();
         }
-    }*/
+    }
 
     /**
      * Verifica que ningún campo quede vacío
@@ -80,7 +117,7 @@ public class ConfigFragment extends Fragment {
         String etNumIntentos = String.valueOf(binding.etNumIntentos.getText());
 
         if (etJugador.equals("") || etNumIntentos.equals("")) {
-            //Toast.makeText(this, "Todos los campos deben estar rellenos", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Todos los campos deben estar rellenos", Toast.LENGTH_SHORT).show();
             return false;
         } else
             return true;
@@ -90,13 +127,15 @@ public class ConfigFragment extends Fragment {
      * Verifica que el rango de intentos sea entre 1 y 100
      */
     public boolean checkIntentos() {
-        String etNumIntentos = String.valueOf(binding.etNumIntentos.getText());
-
         if (Integer.parseInt(binding.etNumIntentos.getText().toString()) > 100 || Integer.parseInt(binding.etNumIntentos.getText().toString()) < 1) {
-            //Toast.makeText(this, "Los intentos deben estar entre 1 y 100", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Los intentos deben estar entre 1 y 100", Toast.LENGTH_SHORT).show();
             return false;
         } else
             return true;
     }
 
+    public void navegacion() {
+        ConfigFragmentDirections.ActionConfigFragmentToPlayFragment action = ConfigFragmentDirections.actionConfigFragmentToPlayFragment(binding.getJugador());
+        NavHostFragment.findNavController(this).navigate(action);
+    }
 }

@@ -12,7 +12,6 @@ import java.util.Random;
  */
 public class Jugador implements Serializable, Parcelable {
     public final static String KEY = "jugador";
-
     String nombre;
     int nIntentos;
     int nIntentosActual;
@@ -21,7 +20,9 @@ public class Jugador implements Serializable, Parcelable {
 
 
     public Jugador() {
-
+        this.nIntentosActual = 0;
+        this.numAdivinar = 1 + new Random().nextInt(100);
+        this.partida = "En juego";
     }
 
     public Jugador(String nombre, int nIntentos) {
@@ -30,10 +31,7 @@ public class Jugador implements Serializable, Parcelable {
         this.nIntentosActual = 0;
         this.numAdivinar = 1 + new Random().nextInt(100);
         this.partida = "En juego";
-
     }
-
-
 
     public String getNombre() {
         return nombre;
