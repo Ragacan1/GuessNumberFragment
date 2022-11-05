@@ -12,14 +12,14 @@ Este proyecto android consiste en el desarrolo de una aplicación que permite qu
 
 **CONFIG FRAGMENT**
 
-![CONFIG](https://user-images.githubusercontent.com/93000360/196013996-949e6d3c-d1a6-4d93-b857-667a52dca357.jpg)
+![CONFIG](https://user-images.githubusercontent.com/93000360/200094847-54bfa5b4-6f19-47d9-a2eb-4afee35c795c.png)
 
 
 **PLAY FRAGMENT**
 
-![PLAY](https://user-images.githubusercontent.com/93000360/196014007-f8e72033-eb05-41e7-a3ee-81f8652ae031.jpg)
+![PLAY](https://user-images.githubusercontent.com/93000360/200094884-b45aa64e-7ec7-43e9-a5ca-695f5c85441d.png)
 
 
 **END-PLAY FRAGMENT**
 
-![END-PLAY](https://user-images.githubusercontent.com/93000360/196014011-a32d366f-1fcb-4d0d-aa7e-a492781ab41b.jpg)
+![END-PLAY](https://user-images.githubusercontent.com/93000360/200094949-8762f810-ad3f-42dc-b265-145c50897c4f.png)
