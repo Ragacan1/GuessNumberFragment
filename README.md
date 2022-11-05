@@ -23,3 +23,8 @@ Este proyecto android consiste en el desarrolo de una aplicación que permite qu
 **END-PLAY FRAGMENT**
 
 ![END-PLAY](https://user-images.githubusercontent.com/93000360/200094949-8762f810-ad3f-42dc-b265-145c50897c4f.png)
+
+
+**Nav_Graph**
+
+![Nav_Graph](https://user-images.githubusercontent.com/93000360/200095475-9516ec87-a843-4931-9c44-c0b6ce6c0bf0.png)
